@@ -1,4 +1,4 @@
-package io.opentracing.contrib.ejb.demoexample.rest;
+package io.opentracing.contrib.ejb.demoexample;
 
 import io.opentracing.contrib.ejb.OpenTracingInterceptor;
 
