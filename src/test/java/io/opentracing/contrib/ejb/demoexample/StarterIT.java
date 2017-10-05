@@ -20,7 +20,6 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-// FIXME this should really be an integration test
 public class StarterIT {
     private static Map<String, String> evs = System.getenv();
     private static Integer JAEGER_API_PORT = new Integer(evs.getOrDefault("JAEGER_API_PORT", "16686"));
@@ -54,10 +53,8 @@ public class StarterIT {
         assertEquals("Expected 6 spans", 6, spans.size());
 
         // TODO check span content  We could at least check operation names
-
         //List<JsonNode> spans = spanNode.findValues("spans");
     }
-
 
 
     private void postAnOrder() {
@@ -65,7 +62,6 @@ public class StarterIT {
         WebTarget service = client.target("http://localhost:8080/order");   // FIXME pick up host and port from EVs
         Response response = service.request().post(Entity.text(""), Response.class);
         logger.info("Response status {}", response.getStatus());
-
     }
 
     /**
