@@ -9,7 +9,6 @@
   <packaging>war</packaging>
 
   <properties>
-    <build.helper.maven.plugin.version>1.10</build.helper.maven.plugin.version>
     <failOnMissingWebXml>false</failOnMissingWebXml>
     <jersey.client.version>2.23.2</jersey.client.version>
     <junit.version>4.12</junit.version>
@@ -50,33 +49,19 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${build.helper.maven.plugin.version}</version>
-        <executions>
-          <execution>
-            <id>add-test-source</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>add-test-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>src/integration-test/java</source>
-              </sources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+      <!-- Names of Integration tests should end in IT -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>${maven.failsafe.plugin.version}</version>
+        <configuration>
+          <includes>
+            <include>**/*IT.java</include>
+          </includes>
+        </configuration>
         <executions>
           <execution>
             <goals>
-              <goal>integration-test</goal>
               <goal>verify</goal>
             </goals>
           </execution>
