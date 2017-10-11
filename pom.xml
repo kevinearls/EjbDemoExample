@@ -10,6 +10,11 @@
 
   <properties>
     <failOnMissingWebXml>false</failOnMissingWebXml>
+    <fabric8.maven.plugin.version>3.5.31</fabric8.maven.plugin.version>
+    <jaeger.service.name>swarm-opentracing-servlet-example</jaeger.service.name>
+    <jaeger.reporter.log.spans>true</jaeger.reporter.log.spans>
+    <jaeger.sampler.type>const</jaeger.sampler.type>
+    <jaeger.sampler.param>1</jaeger.sampler.param>
     <jersey.client.version>2.23.2</jersey.client.version>
     <junit.version>4.12</junit.version>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -147,4 +152,47 @@
       </plugin>
     </plugins>
   </reporting>
+
+  <profiles>
+    <profile>
+      <id>openshift</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>io.fabric8</groupId>
+            <artifactId>fabric8-maven-plugin</artifactId>
+            <version>${fabric8.maven.plugin.version}</version>
+            <executions>
+              <execution>
+                <id>fmp</id>
+                <goals>
+                  <goal>resource</goal>
+                  <goal>helm</goal>
+                  <goal>build</goal>
+                </goals>
+                <configuration>
+                  <enricher>
+                    <excludes>
+                      <exclude>spring-boot-health-check</exclude>
+                      <exclude>vertx-health-check</exclude>
+                      <exclude>wildfly-swarm-health-check</exclude>
+                    </excludes>
+                  </enricher>
+                  <resources>
+                    <env>
+                      <JAEGER_REPORTER_LOG_SPANS>${jaeger.reporter.log.spans}</JAEGER_REPORTER_LOG_SPANS>
+                      <JAEGER_SAMPLER_PARAM>${jaeger.sampler.param}</JAEGER_SAMPLER_PARAM>
+                      <JAEGER_SAMPLER_TYPE>${jaeger.sampler.type}</JAEGER_SAMPLER_TYPE>
+                      <JAEGER_SERVICE_NAME>${jaeger.service.name}</JAEGER_SERVICE_NAME>
+                    </env>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
 </project>
