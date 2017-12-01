@@ -1,4 +1,6 @@
 # OpenTracing EJB Example
+This is an implementation of the application described here: http://www.hawkular.org/blog/2017/07/opentracing-ejb.html
+
 ## How to run the example
 ### Start a Jaeger instance
 See http://jaeger.readthedocs.io/en/latest/getting_started/
